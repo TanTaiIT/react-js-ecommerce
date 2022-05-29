@@ -8,7 +8,7 @@ const Pagination = ({ pages, page, keyword = "" }) => {
                     [...Array(pages).keys()].map((x) => {
                         return (
                             <>
-                                <Link to={`/pageNumber/${x + 1}`} ><span className={`page-item ${x + 1 === page ? 'active' : ""}`}>{x + 1}</span></Link>
+                                <Link to={`/product/pageNumber/${x + 1}`} ><span className={`page-item ${x + 1 === page ? 'active' : ""}`}>{x + 1}</span></Link>
                             </>
                         )
                     })

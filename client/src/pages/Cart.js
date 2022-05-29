@@ -7,10 +7,15 @@ import { add_cart, remove_cart } from '../redux/actions/cartAction'
 const Cart = () => {
     const cart = useSelector(state => state.cart.cartItem)
     const dispatch = useDispatch()
-    const sub = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+    const Decimal = (num) => {
+        return ((num * 100) / 100).toFixed(2)
+    }
+    const sub = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const subs = sub.toFixed(2)
     const tax = (((sub * 5) / 100))
+    const taxs = tax.toFixed(2)
     const ship = sub > 500 ? 0 : 50
-    const total = (sub + tax + ship)
+    const total = Decimal(sub + tax + ship)
 
     return (
         <>
@@ -40,8 +45,8 @@ const Cart = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><input type="number" value={item.qty} onChange={(e) => dispatch(add_cart(item.product, Number(e.target.value)))} placeholder={item.qty} min="1" max={item.countInStock} /></td>
-                                        <td> ${(item.price * Number(item.qty)).toFixed(2)}</td>
+                                        <td><input type="number" value={item.quantity} onChange={(e) => dispatch(add_cart(item.product, Number(e.target.value)))} placeholder={item.qty} min="1" max={item.countInStock} /></td>
+                                        <td> ${(item.price * Number(item.quantity)).toFixed(2)}</td>
                                     </tr>
                                 )
                             })
@@ -55,11 +60,11 @@ const Cart = () => {
                         <tbody>
                             <tr>
                                 <td>Subtotal</td>
-                                <td>${sub}</td>
+                                <td>${subs}</td>
                             </tr>
                             <tr>
                                 <td>Tax</td>
-                                <td>${tax}</td>
+                                <td>${taxs}</td>
                             </tr>
                             <tr>
                                 <td>shipping</td>

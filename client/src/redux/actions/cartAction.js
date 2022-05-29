@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_CART, PAYMENT_METHOD, REMOVE_CART, SHIPPING } from "../constranst/cartContranst"
+import { ADD_CART, PAYMENT_METHOD, REMOVE_CART, SHIPPING, RESET_ORDER, CLEAR_CART } from "../constranst/cartContranst"
 export const add_cart = (id, qty) => async (dispatch, getState) => {
     // dispatch({ type: ADD_CART, payload: item })
     const { data } = await axios.get(`/api/product/${id}`)
@@ -10,7 +10,7 @@ export const add_cart = (id, qty) => async (dispatch, getState) => {
             price: data.price,
             image: data.image,
             countInStock: data.countInStock,
-            qty: qty
+            quantity: qty
         }
     })
     localStorage.setItem('cart', JSON.stringify(getState().cart.cartItem))
@@ -27,4 +27,12 @@ export const shipping = (data) => async (dispatch) => {
 export const payment_method = (method) => async (dispatch) => {
     dispatch({ type: PAYMENT_METHOD, payload: method })
     localStorage.setItem('method', JSON.stringify(method))
+}
+export const clear = () => (dispatch) => {
+    localStorage.removeItem('method')
+    localStorage.removeItem('cart')
+    localStorage.removeItem('ship')
+    dispatch({ type: RESET_ORDER })
+    dispatch({ type: CLEAR_CART })
+
 }

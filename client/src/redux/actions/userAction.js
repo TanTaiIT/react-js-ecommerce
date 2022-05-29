@@ -1,5 +1,5 @@
 import axios from "axios"
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, SIGN_UP_FAIL, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, USER_DETAIL_FAIL, USER_DETAIL_REQUEST, USER_DETAIL_RESET, USER_DETAIL_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constranst/userContranst"
+import { USER_LOGOUT, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, SIGN_UP_FAIL, SIGN_UP_REQUEST, SIGN_UP_SUCCESS, USER_DETAIL_FAIL, USER_DETAIL_REQUEST, USER_DETAIL_RESET, USER_DETAIL_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constranst/userContranst"
 
 export const signin = (info) => async (dispatch) => {
     dispatch({ type: LOGIN_REQUEST })
@@ -78,4 +78,11 @@ export const updateProfile = (info) => async (dispatch, getState) => {
         }
         dispatch({ type: USER_UPDATE_FAIL, payload: message })
     }
+}
+
+export const userLogout = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch({ type: USER_LOGOUT })
+    dispatch({ type: USER_DETAIL_RESET })
+    // document.location.href = "/login"
 }

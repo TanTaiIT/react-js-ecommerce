@@ -1,4 +1,4 @@
-import { ADD_CART, PAYMENT_METHOD, REMOVE_CART, SHIPPING } from "../constranst/cartContranst";
+import { ADD_CART, PAYMENT_METHOD, REMOVE_CART, SHIPPING, CLEAR_CART } from "../constranst/cartContranst";
 export const addCart = (state = { cartItem: [], shipping: {}, payment: '' }, action) => {
     switch (action.type) {
         case ADD_CART:
@@ -27,6 +27,11 @@ export const addCart = (state = { cartItem: [], shipping: {}, payment: '' }, act
             return {
                 ...state, payment: action.payload
             }
+        case CLEAR_CART:
+            return {
+                ...state, cartItem: []
+            }
+        
         default:
             return state
     }

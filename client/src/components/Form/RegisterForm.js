@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signup } from '../../redux/actions/userAction'
+import './Login.css'
 const RegisterForm = () => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -15,50 +16,43 @@ const RegisterForm = () => {
         navigate('/')
     }
     return (
-        <div className="container">
-            <div className="login-form">
+        <div className="wrapper fadeInDown">
+            <div id="formContent">
+
+                <h2 className="active"> Sign In </h2>
+                <h2 className="inactive underlineHover"><Link to='/register' >Sign Up</Link></h2>
+
+
+                <div className="fadeIn first">
+                    <img src="/images/user.png" id="icon" alt="User Icon" style={{ width: "20%" }} />
+                </div>
+
+
                 <form onSubmit={handleSubmit}>
-                    <h1>Sign Up</h1>
-                    <p>
-                        Please fill in this form to create an account. or
-                        <Link to="/login">Login</Link>
-                    </p>
-                    <label htmlFor="email">Name</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Name" name="name" required />
+                    <input type="text" className="fadeIn second" id="login" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter Name" name="name" required />
+                    <input type="text" className="fadeIn third" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" name="email" required />
 
-                    <label htmlFor="email">Email</label>
-                    <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter Email" name="email" required />
-
-                    <label htmlFor="psw">Password</label>
-                    <input
-                        type="password"
-                        placeholder="Enter Password"
-                        name="psw"
-                        required
-                        value={password}
+                    <input type="password" placeholder="Enter Password" id="password" required value={password} className="fadeIn third"
                         onChange={(e) => setPassword(e.target.value)}
                     />
 
-                    <label htmlFor="psw-repeat">Repeat Password</label>
                     <input
                         type="password"
                         placeholder="Repeat Password"
                         name="psw-repeat"
                         required
+                        className="fadeIn four"
                         value={repassword}
                         onChange={(e) => setRePassword(e.target.value)}
                     />
-
-                    <p>
-                        By creating an account you agree to our
-                        <Link to="#">Terms & Privacy</Link>.
-                    </p>
-
-                    <div className="buttons">
-                        {/* <button type="button" className="cancelbtn">Cancel</button> */}
-                        <button type="submit" className="signupbtn">Sign Up</button>
-                    </div>
+                    <input type="submit" className="fadeIn fourth" value="Log In" />
                 </form>
+
+
+                {/* <div id="formFooter">
+                    <Lin className="underlineHover" href="#">Forgot Password?</a>
+                </div> */}
+
             </div>
         </div>
     )

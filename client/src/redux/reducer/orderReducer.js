@@ -1,4 +1,5 @@
-import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_RESET, ORDER_DETAIL_REQUEST, ORDER_DETAIL_SUCCESS, ORDER_DETAIL_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_RESET,ORDER_LIST_FAIL,ORDER_LIST_REQUEST,ORDER_LIST_RESET,ORDER_LIST_SUCCESS } from "../constranst/orderContranst";
+import { RESET_ORDER } from "../constranst/cartContranst";
+import { ORDER_CREATE_FAIL, ORDER_CREATE_REQUEST, ORDER_CREATE_SUCCESS, ORDER_CREATE_RESET, ORDER_DETAIL_REQUEST, ORDER_DETAIL_SUCCESS, ORDER_DETAIL_FAIL, ORDER_PAY_REQUEST, ORDER_PAY_SUCCESS, ORDER_PAY_FAIL, ORDER_PAY_RESET, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_RESET, ORDER_LIST_SUCCESS } from "../constranst/orderContranst";
 
 export const create_order = (state = {}, action) => {
     switch (action.type) {
@@ -29,6 +30,8 @@ export const orderDetail = (state = { loading: true }, action) => {
             return { loading: false, order: action.payload }
         case ORDER_DETAIL_FAIL:
             return { loading: false, error: action.payload }
+        case RESET_ORDER:
+            return { ...state, order: [] }
         default:
             return state
     }

@@ -14,7 +14,7 @@ const Order = () => {
     const { shipping, cartItem, payment } = cart
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const sub = cartItem.reduce((sum, item) => sum + item.price * item.qty, 0)
+    const sub = cartItem.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const tax = (((sub * 5) / 100))
     const ship = sub > 500 ? 0 : 50
     const total = (sub + tax + ship)
@@ -112,7 +112,7 @@ const Order = () => {
                                                 </div>
                                                 <div className="mt-3 mt-md-0 col-md-2 col-6 align-items-end  d-flex flex-column justify-content-center ">
                                                     <h4>SUBTOTAL</h4>
-                                                    <h4>${(item.price * item.qty).toFixed(2)}</h4>
+                                                    <h4>${(item.price * item.quantity).toFixed(2)}</h4>
                                                 </div>
                                             </>
                                         )

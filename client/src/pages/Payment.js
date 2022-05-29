@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PayPalButton } from 'react-paypal-button-v2'
 import Header from '../components/Header'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { MdOutlineLocalShipping } from 'react-icons/md'
 import { GoLocation } from 'react-icons/go'
 import moment from 'moment'
+import { clear } from '../redux/actions/cartAction'
 const Payment = () => {
     const match = useParams()
     const orderId = match.id
@@ -25,7 +26,7 @@ const Payment = () => {
     }
     let sub = 0
     if (order) {
-        const subs = addDecimal(order.orderItems.reduce((tong, item) => tong + item.price * item.quantity, 0))
+        const subs = addDecimal(order && order.orderItems.reduce((tong, item) => tong + item.price * item.quantity, 0))
         sub = Number(subs)
     }
     const [sdkReady, setSdkReady] = useState(false)
@@ -36,7 +37,6 @@ const Payment = () => {
         const addPayPalScript = async () => {
             const { data: clientId } = await axios.get("/api/config/paypal");
             const script = document.createElement("script");
-            console.log(clientId)
             script.type = "text/javascript";
             script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
             script.async = true;
@@ -56,8 +56,11 @@ const Payment = () => {
             }
         }
     }, [dispatch, orderId, successPay, order]);
+    const navigate = useNavigate()
     const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(orderId, paymentResult))
+        dispatch(clear())
+        navigate('/')
     }
 
     return (
@@ -224,7 +227,7 @@ const Payment = () => {
 
 
                         <div className="col-12">
-                            <PayPalButton amount={100} onSuccess={successPaymentHandler} />
+                            <PayPalButton amount={sub} onSuccess={successPaymentHandler} />
                         </div>
 
 

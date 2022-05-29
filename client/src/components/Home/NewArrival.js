@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Pagination from './Pagination'
+import Loading from './../Loading/Loading'
 const NewArrival = ({ pageNumber = "", keyword = "" }) => {
     const initialState = {
         loading: false,
@@ -36,7 +37,7 @@ const NewArrival = ({ pageNumber = "", keyword = "" }) => {
             dispatch({ type: "PRODUCT_ERROR", payload: message })
         }
     }, [keyword, pageNumber])
-    const { products } = state
+    const { products, loading } = state
     const product = products.product
     return (
         <section className="section new-arrival">
@@ -44,34 +45,36 @@ const NewArrival = ({ pageNumber = "", keyword = "" }) => {
                 <h1>NEW ARRIVALS</h1>
                 <p>All the latest picked from designer of our store</p>
             </div>
-
-            <div className="product-center">
-                {
-                    product && product.map((item) => {
-                        return (
-                            <div className="product-item" key={item._id}>
-                                <Link to={`/detail/${item._id}`}>
-                                    <div className="overlay">
-                                        <Link to={`/detail/${item._id}`} className="product-thumb">
-                                            <img src={item.image} alt="" />
-                                        </Link>
-                                    </div>
-                                    <div className="product-info">
-                                        <span>MEN'S CLOTHES</span>
-                                        <Link to={`/detail/${item._id}`}>{item.name}</Link>
-                                        <h4>${item.price}</h4>
-                                    </div>
-                                </Link>
-                                {/* <ul className="icons">
+            {
+                loading ? <Loading /> : (<div className="product-center">
+                    {
+                        product && product.map((item) => {
+                            return (
+                                <div className="product-item" key={item._id}>
+                                    <Link to={`/detail/${item._id}`}>
+                                        <div className="overlay">
+                                            <Link to={`/detail/${item._id}`} className="product-thumb">
+                                                <img src={item.image} alt="" />
+                                            </Link>
+                                        </div>
+                                        <div className="product-info">
+                                            <span>MEN'S CLOTHES</span>
+                                            <Link to={`/detail/${item._id}`}>{item.name}</Link>
+                                            <h4>${item.price}</h4>
+                                        </div>
+                                    </Link>
+                                    {/* <ul className="icons">
                                     <li><i className="bx bx-heart"></i></li>
                                     <li><i className="bx bx-search"></i></li>
                                     <li><i className="bx bx-cart"></i></li>
                                 </ul> */}
-                            </div>
-                        )
-                    })
-                }
-            </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>)
+            }
+
             <Pagination pages={products.pages} page={products.Page} keyword={keyword} />
         </section>
     )

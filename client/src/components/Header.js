@@ -1,11 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import Hero from './../components/Home/Hero'
 import { FiLogOut } from 'react-icons/fi'
+import { userLogout } from '../redux/actions/userAction'
+import { Navigate } from 'react-router-dom'
 const Header = () => {
     const user = useSelector(state => state.users.user)
     const cart = useSelector(state => state.cart.cartItem)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const logoutHandler = () => {
+        dispatch(userLogout())
+        navigate('/login')
+    }
     return (
         <>
             <header >
@@ -22,16 +30,16 @@ const Header = () => {
                 </div>
                 <div className="navigation">
                     <div className="nav-center container d-flex">
-                        <Link to="/" className="logo"><h1>Dans</h1></Link>
+                        <Link to="/" className="logo"><h1 style={{ fontWeight: "800", color: "#1b8936",fontSize:"32px" }}>ONLINE STORE</h1></Link>
 
                         <ul className="nav-list d-flex">
                             <li className="nav-item">
-                                <Link to="/" className="nav-link">Home</Link>
+                                <Link to="/" className="nav-link">HOME</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={`/product`} className="nav-link">Shop</Link>
+                                <Link to={`/product`} className="nav-link">SHOP</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <Link to="#terms" className="nav-link">Terms</Link>
                             </li>
                             <li className="nav-item">
@@ -39,18 +47,18 @@ const Header = () => {
                             </li>
                             <li className="nav-item">
                                 <Link to="#contact" className="nav-link">Contact</Link>
-                            </li>
+                            </li> */}
                         </ul>
 
                         <div className="icons d-flex">
                             {
-                                user !== null ? (<Link to={`/profile/${user._id}`} className="icon">
+                                user !== null ? (<><Link to={`/profile/${user._id}`} className="icon">
                                     <i className="bx bx-user"></i>
-                                </Link>) : <Link to="/login" className="login">login</Link>
+                                </Link> <FiLogOut className="text-success" onClick={logoutHandler} /></>) : <Link to="/login" className="login">login</Link>
                             }
                             {
                                 user !== null ? (<div className="icon">
-                                    <FiLogOut className="text-success" />
+
                                 </div>) : null
                             }
 

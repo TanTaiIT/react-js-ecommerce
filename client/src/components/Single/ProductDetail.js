@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Toast from '../Loading/Toast'
 import { add_cart } from '../../redux/actions/cartAction'
+import Loading from './../Loading/Loading'
 const ProductDetail = () => {
     const params = useParams()
     const proId = params.id
@@ -52,22 +53,23 @@ const ProductDetail = () => {
         dispatch(add_cart(proId, quantity))
 
     }
-    const { product } = state
+    const { product, loading } = state
     return (
         <>
             <Toast />
-            <section className="section product-detail">
-                <div className="details container">
-                    <div className="left image-container">
-                        <div className="main">
-                            <img src={product.image} id="zoom" alt="" />
+            {
+                loading ? <Loading /> : (<section className="section product-detail">
+                    <div className="details container">
+                        <div className="left image-container">
+                            <div className="main">
+                                <img src={product.image} id="zoom" alt="" />
+                            </div>
                         </div>
-                    </div>
-                    <div className="right">
-                        <span>Home/T-shirt</span>
-                        <h1>{product.name}</h1>
-                        <div className="price">${product.price}</div>
-                        {/* <form>
+                        <div className="right">
+                            <span>Home/T-shirt</span>
+                            <h1>{product.name}</h1>
+                            <div className="price">${product.price}</div>
+                            {/* <form>
                         <div>
                             <select>
                                 <option value="Select Size" selected disabled>
@@ -81,23 +83,25 @@ const ProductDetail = () => {
                             <span><i className="bx bx-chevron-down"></i></span>
                         </div>
                     </form> */}
-                        {/* <div>
+                            {/* <div>
                         <select>
                             <option>1</option>
                             <option>1</option>
                         </select>
                     </div> */}
-                        <form className="form">
-                            <input type="number" placeholder="1" value={quantity} className="quantity" onChange={handleChange} />
-                            <button className="addCart" onClick={addToCart}>Add To Cart</button>
-                        </form>
-                        <h3>Product Detail</h3>
-                        <p>
-                            {product.description}
-                        </p>
+                            <form className="form">
+                                <input type="number" placeholder="1" value={quantity} className="quantity" onChange={handleChange} />
+                                <button className="addCart" onClick={addToCart}>Add To Cart</button>
+                            </form>
+                            <h3>Product Detail</h3>
+                            <p>
+                                {product.description}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>)
+            }
+
         </>
     )
 }
